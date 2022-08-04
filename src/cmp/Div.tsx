@@ -3,7 +3,7 @@
 import React from "react";
 
 const Div = (props: any) => {
-    const { style, className, ...others } = props;
-    return <div style={{ width: '100px', height: '100px', ...style }} className={`ewcmp ${className}`} {...others}></div >
+    const { children, ...others } = props;
+    return <div {...others} >{children}</div >
 }
 export default Div

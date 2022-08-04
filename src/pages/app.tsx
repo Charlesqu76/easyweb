@@ -2,6 +2,7 @@
 import React from "react";
 import Cmp from '@/component/Cmp/index';
 import Exhibition from '@/component/Exhibition/index';
+import Config from '@/component/Config/index'
 import './app.scss';
 
 export default () => {
@@ -10,7 +11,7 @@ export default () => {
         <div className="ew-con-body">
             <div className="ew-con-body-cmp"><Cmp /></div>
             <div className="ew-con-body-exhibition"><Exhibition /></div>
-            <div className="ew-con-body-config"></div>
+            <div className="ew-con-body-config"><Config /></div>
         </div>
     </div>
 }

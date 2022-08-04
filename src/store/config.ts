@@ -2,17 +2,16 @@
 import { action, makeAutoObservable, observable } from "mobx";
 
 
-export interface IComponents {
+export interface IConfig {
     configObj: any,
 }
 
-
-export default class Components implements IComponents {
+export default class Config implements IConfig {
     @observable configObj = {};
     constructor() {
         makeAutoObservable(this);
     }
     setConfigObj = (obj: any) => {
-        this.configObj = obj
+        this.configObj = obj;
     }
 }
