@@ -1,0 +1,10 @@
+.ew__config {
+  &-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    &-key {
+      margin-right: 5px;
+    }
+  }
+}

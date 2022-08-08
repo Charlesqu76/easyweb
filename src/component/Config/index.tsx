@@ -7,29 +7,44 @@
 import { inject, observer } from "mobx-react";
 import React from "react";
 import { IConfig } from '@/store/config'
+import { IExhibition } from '@/store/exhibition'
+import { Collapse, Input } from 'antd'
 import './index.scss'
 
 
 type IProp = Partial<{
     config: IConfig
+    exhibition: IExhibition
 }>
 
-@inject('config')
+@inject('exhibition')
 @observer
 export default class Config extends React.Component<IProp> {
 
+    handleChangeValue = (param: { key: string, value: any, id: number }) => {
+        const val = param.value.target.value;
+        this.props.exhibition.changeItem({ ...param, value: val })
+    }
+
     renderConfig = (obj: any) => {
-        console.log(obj);
         const keys = Object.keys(obj);
-        console.log(keys);
-        return <div>asdf</div>
+        return <div>{keys.map((key) => {
+            if (key === 'id') return <></>
+            const val = obj[key];
+            if (key === 'style') {
+                return <Collapse>
+                    <Collapse.Panel header={'style'} key={'style'}>{this.renderConfig({ ...val, id: obj.id })}</Collapse.Panel>
+                </Collapse>
+            }
+            if (typeof val === 'function') return <></>
+            return <div className="ew__config-item"><span className="ew__config-item-key"> {key}</span> <Input value={val} onChange={(val) => { this.handleChangeValue({ key, value: val, id: obj.id }) }}></Input></div>
+        })}</div>
 
     }
 
     render(): React.ReactNode {
-        const { config } = this.props;
-        console.log(this.props.config.configObj)
-        const { configObj = {} } = config || {};
-        return <div className="ew__config-con">{this.renderConfig(configObj)}</div>
+        const { exhibition } = this.props;
+        const { configData = {} } = exhibition || {};
+        return <div className="ew__config-con">{this.renderConfig(configData)}</div>
     }
 }

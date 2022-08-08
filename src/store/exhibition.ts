@@ -1,6 +1,7 @@
 
 import { action, makeAutoObservable, observable } from "mobx";
-import { generateId } from '@/util/index'
+import { generateId, getItemFromTree } from '@/util/index';
+
 export type componentProp = {
     tagName: string;
     tagProps: Record<string, any>;
@@ -10,10 +11,13 @@ export type componentProp = {
 
 export interface IExhibition {
     data: componentProp,
-    changeItem: (id: number, obj: any) => void
+    changeItem: (param: { id: number, key: string, value: string }) => void,
+    configData: componentProp | {},
+    setConfigData: (obj: any) => void
 }
 
 export default class Exhibition implements IExhibition {
+    @observable configData = {};
     @observable data = {
         tagName: "div", tagProps: { className: "hhhhh", style: { backgroundColor: 'red', display: 'flex' } }, child:
             [
@@ -28,9 +32,27 @@ export default class Exhibition implements IExhibition {
         generateId(this.data);
     }
 
+
     @action
-    changeItem(id: number, obj: any) {
-        console.log(id);
+    changeItem(param: { id: number, key: string, value: string }) {
+        const { id, key, value } = param;
+        const item = getItemFromTree(this.data, id);
+        if (!item) { console.log('not find item'); return };
+        const { tagProps } = item;
+        tagProps[key] = value;
+        const configData = this.configData
+        if (this.configData[key as keyof typeof configData]) {
+            // @ts-ignore
+            this.setConfigData({ ...this.configData, [key]: value });
+        } else {
+            // @ts-ignore
+            this.setConfigData({ ...this.configData, style: { ...this.configData.style, [key]: value } })
+        }
+        // @ts-ignore
+    }
+    @action
+    setConfigData(obj: componentProp) {
+        this.configData = obj;
     }
 
 }

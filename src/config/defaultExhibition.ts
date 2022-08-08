@@ -11,9 +11,8 @@ const defaultExhibition = {
         const arg1 = arg[0];
         const arg2 = arg[1];
         const { id } = arg1;
-        const { exhibition, config } = arg2;
-        config.setConfigObj(arg1);
-        // exhibition.changeItem(id, {});
+        const { exhibition } = arg2;
+        exhibition.setConfigData(arg1);
         e.stopPropagation();
     },
     onMouseEnter: (e: MouseEvent) => {
