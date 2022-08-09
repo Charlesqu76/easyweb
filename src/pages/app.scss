@@ -8,6 +8,7 @@
   }
   &-body {
     display: flex;
+    position: relative;
     height: 100%;
     &-cmp {
       height: 100%;
@@ -20,12 +21,22 @@
     }
     &-config {
       height: 100%;
-      width: 200px;
+      min-height: 600px;
+      width: 300px;
       background-color: aqua;
+      padding: 10px 5px;
+    }
+    &-configunfixed {
+      position: absolute;
+      height: 700px;
+      overflow: hidden;
+      top: 100px;
+      left: 200px;
     }
   }
 }
 
+.ew_draginclass,
 .ew_class:hover {
   border: 1px rgb(227, 68, 68) solid;
 }

@@ -2,7 +2,7 @@
  * @Author: Charles.qu 
  * @Date: 2022-08-04 11:48:44 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2022-08-04 16:41:55
+ * @Last Modified time: 2022-08-09 17:34:20
  */
 import { inject, observer } from "mobx-react";
 import React from "react";
@@ -17,7 +17,7 @@ type IProp = Partial<{
     exhibition: IExhibition
 }>
 
-@inject('exhibition')
+@inject('exhibition', 'config')
 @observer
 export default class Config extends React.Component<IProp> {
 
@@ -39,12 +39,11 @@ export default class Config extends React.Component<IProp> {
             if (typeof val === 'function') return <></>
             return <div className="ew__config-item"><span className="ew__config-item-key"> {key}</span> <Input value={val} onChange={(val) => { this.handleChangeValue({ key, value: val, id: obj.id }) }}></Input></div>
         })}</div>
-
     }
 
     render(): React.ReactNode {
         const { exhibition } = this.props;
         const { configData = {} } = exhibition || {};
-        return <div className="ew__config-con">{this.renderConfig(configData)}</div>
+        return <div className="ew__config-con"><div className="ew__config-con-header">属性配置</div> <div>{this.renderConfig(configData)}</div></div>
     }
 }

@@ -39,14 +39,15 @@ export default class Exhibition implements IExhibition {
         const item = getItemFromTree(this.data, id);
         if (!item) { console.log('not find item'); return };
         const { tagProps } = item;
-        tagProps[key] = value;
-        const configData = this.configData
+        const configData = this.configData;
         if (this.configData[key as keyof typeof configData]) {
             // @ts-ignore
             this.setConfigData({ ...this.configData, [key]: value });
+            tagProps[key] = value;
         } else {
             // @ts-ignore
-            this.setConfigData({ ...this.configData, style: { ...this.configData.style, [key]: value } })
+            this.setConfigData({ ...this.configData, style: { ...this.configData.style, [key]: value } });
+            tagProps['style'][key] = value;
         }
         // @ts-ignore
     }

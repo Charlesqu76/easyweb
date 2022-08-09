@@ -1,4 +1,14 @@
 .ew__config {
+  &-con {
+    display: flex;
+    flex-direction: column;
+    &-header {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+  }
   &-item {
     display: flex;
     align-items: center;

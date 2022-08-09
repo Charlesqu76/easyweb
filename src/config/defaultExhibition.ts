@@ -1,6 +1,7 @@
 
 
-const ew_class = 'ew_class'
+const ew_class = 'ew_class';
+const ew_draginclass = 'ew_draginclass';
 
 const defaultExhibition = {
     style: {
@@ -31,7 +32,36 @@ const defaultExhibition = {
         const newClassList = oldClassList.filter((cls: string) => cls !== ew_class) || [];
         // @ts-ignore
         (newClassList.length !== oldClassList.length) && e.target.setAttribute('class', `${newClassList.join(' ')}`)
-    }
+    },
+    onDragEnter: (e: Event) => {
+        e.stopPropagation();
+        // @ts-ignore
+        const oldClass = e.target.getAttribute('class');
+        const oldClassList = oldClass.split(' ') || [];
+        // @ts-ignore
+        !oldClassList.includes(ew_draginclass) && e.target.setAttribute('class', `${oldClass} ${ew_draginclass}`)
+    },
+    onDragLeave: (e: Event) => {
+        e.stopPropagation();
+        // @ts-ignore
+        const oldClass = e.target.getAttribute('class');
+        const oldClassList = oldClass.split(' ') || [];
+        const newClassList = oldClassList.filter((cls: string) => cls !== ew_draginclass) || [];
+        // @ts-ignore
+        (newClassList.length !== oldClassList.length) && e.target.setAttribute('class', `${newClassList.join(' ')}`)
+
+    },
+    onDragOver: (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+    },
+    onDrop: (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        // @ts-ignore
+        const data = e.dataTransfer.getData('sss');
+        console.log(data);
+    },
 }
 
 export { defaultExhibition }
