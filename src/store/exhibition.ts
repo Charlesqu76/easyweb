@@ -13,17 +13,18 @@ export interface IExhibition {
     data: componentProp,
     changeItem: (param: { id: number, key: string, value: string }) => void,
     configData: componentProp | {},
-    setConfigData: (obj: any) => void
+    setConfigData: (obj: any) => void,
+    addItemToTree: (id: number, key: string) => void
 }
 
 export default class Exhibition implements IExhibition {
     @observable configData = {};
     @observable data = {
-        tagName: "div", tagProps: { className: "hhhhh", style: { backgroundColor: 'red', display: 'flex' } }, child:
+        tagName: "div", tagProps: { style: { backgroundColor: 'red', display: 'flex' } }, child:
             [
-                { tagName: "div", tagProps: { className: "hhhhh", style: { backgroundColor: 'black' } } },
-                { tagName: "div", tagProps: { className: "hhhhh", style: { backgroundColor: 'blue' } }, },
-                { tagName: "div", tagProps: { className: "hhhhh", style: { backgroundColor: 'grey' } } }
+                { tagName: "div", tagProps: { style: { backgroundColor: 'black' } } },
+                { tagName: "div", tagProps: { style: { backgroundColor: 'blue' } }, },
+                { tagName: "div", tagProps: { style: { backgroundColor: 'grey' } } }
             ] as Array<any>
     };
     constructor() {
@@ -47,13 +48,29 @@ export default class Exhibition implements IExhibition {
         } else {
             // @ts-ignore
             this.setConfigData({ ...this.configData, style: { ...this.configData.style, [key]: value } });
-            tagProps['style'][key] = value;
+            if (tagProps['style']) {
+                tagProps['style'][key] = value;
+            } else {
+                tagProps['style'] = { [key]: value }
+            }
         }
-        // @ts-ignore
     }
     @action
     setConfigData(obj: componentProp) {
         this.configData = obj;
+    }
+
+    @action
+    addItemToTree(id: number, key: string) {
+        const item = getItemFromTree(this.data, Number(id));
+        if (!item) { console.log('not find item'); return };
+        const defaultObj = { tagName: key, tagProps: {} };
+        if (item.child) {
+            item.child.push(defaultObj)
+        } else {
+            item.child = [defaultObj]
+        }
+        generateId(this.data);
     }
 
 }

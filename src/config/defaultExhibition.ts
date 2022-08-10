@@ -20,7 +20,7 @@ const defaultExhibition = {
         e.stopPropagation();
         // @ts-ignore
         const oldClass = e.target.getAttribute('class');
-        const oldClassList = oldClass.split(' ') || [];
+        const oldClassList = oldClass?.split(' ') || [];
         // @ts-ignore
         !oldClassList.includes(ew_class) && e.target.setAttribute('class', `${oldClass} ${ew_class}`)
     },
@@ -28,7 +28,7 @@ const defaultExhibition = {
         e.stopPropagation();
         // @ts-ignore
         const oldClass = e.target.getAttribute('class');
-        const oldClassList = oldClass.split(' ') || [];
+        const oldClassList = oldClass?.split(' ') || [];
         const newClassList = oldClassList.filter((cls: string) => cls !== ew_class) || [];
         // @ts-ignore
         (newClassList.length !== oldClassList.length) && e.target.setAttribute('class', `${newClassList.join(' ')}`)
@@ -37,7 +37,7 @@ const defaultExhibition = {
         e.stopPropagation();
         // @ts-ignore
         const oldClass = e.target.getAttribute('class');
-        const oldClassList = oldClass.split(' ') || [];
+        const oldClassList = oldClass?.split(' ') || [];
         // @ts-ignore
         !oldClassList.includes(ew_draginclass) && e.target.setAttribute('class', `${oldClass} ${ew_draginclass}`)
     },
@@ -45,7 +45,7 @@ const defaultExhibition = {
         e.stopPropagation();
         // @ts-ignore
         const oldClass = e.target.getAttribute('class');
-        const oldClassList = oldClass.split(' ') || [];
+        const oldClassList = oldClass?.split(' ') || [];
         const newClassList = oldClassList.filter((cls: string) => cls !== ew_draginclass) || [];
         // @ts-ignore
         (newClassList.length !== oldClassList.length) && e.target.setAttribute('class', `${newClassList.join(' ')}`)
@@ -55,12 +55,23 @@ const defaultExhibition = {
         e.preventDefault();
         e.stopPropagation();
     },
-    onDrop: (e: Event) => {
+    onDrop: (e: Event, ...args: Array<any>) => {
+
         e.preventDefault();
         e.stopPropagation();
         // @ts-ignore
-        const data = e.dataTransfer.getData('sss');
-        console.log(data);
+        const oldClass = e.target.getAttribute('class');
+        const oldClassList = oldClass?.split(' ') || [];
+        const newClassList = oldClassList.filter((cls: string) => cls !== ew_draginclass) || [];
+        // @ts-ignore
+        (newClassList.length !== oldClassList.length) && e.target.setAttribute('class', `${newClassList.join(' ')}`)
+        // @ts-ignore
+        const id = e.target.id;
+        // @ts-ignore
+        const key = e.dataTransfer.getData('cmpKey');
+        const arg2 = args[1];
+        const { exhibition } = arg2;
+        exhibition.addItemToTree(id, key);
     },
 }
 

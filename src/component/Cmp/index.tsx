@@ -22,20 +22,25 @@ export default class Cmp extends React.Component<IProp>  {
     componentDidMount(): void {
     }
     handleDragStart = (event: DragEvent, data: any) => {
-        event.dataTransfer.setData('sss', data);
+        event.dataTransfer.setData('cmpKey', data);
     }
     render(): React.ReactNode {
         return <div className="ew__cmp-con">
-            <Collapse>
-                {Object.keys(cmpData).map((key: any) => {
-                    const Cmp = cmpData[key as keyof typeof cmpData];
-                    console.log(Cmp);
-                    return <Panel header={key} key={key}>
-                        <Cmp draggable='true' onDragStart={(e: DragEvent) => this.handleDragStart(e, 'data')} style={{ width: "100px", height: "100px" }} />
-                    </Panel>
-                })}
+            <div className="ew__cmp-con-header">
+                <span>组件区</span>
+            </div>
+            <div className="ew__cmp-con-body">
+                <Collapse>
+                    {Object.keys(cmpData).map((key: any) => {
+                        const Cmp = cmpData[key as keyof typeof cmpData];
+                        return <Panel header={key} key={key}>
+                            <Cmp draggable='true' onDragStart={(e: DragEvent) => this.handleDragStart(e, key)} style={{ width: "100px", height: "100px" }} />
+                        </Panel>
+                    })}
 
-            </Collapse>
+                </Collapse>
+            </div>
+
         </div>
     }
 }

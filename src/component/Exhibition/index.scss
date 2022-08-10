@@ -1,3 +1,35 @@
 .ew__exhibition-con {
   height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background-color: gainsboro;
+  &-minimap {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+  }
+  &-minimaphidden {
+    display: none;
+  }
+  &-show {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    &-con {
+      width: 200px;
+    }
+  }
+  &-config {
+  }
+  &-configunfixed {
+    position: absolute;
+    height: 700px;
+    overflow: scroll;
+    top: 10px;
+    right: 10px;
+    border-radius: 5px;
+    border: 1px solid #f5f6fa;
+  }
 }
