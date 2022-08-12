@@ -2,7 +2,7 @@
  * @Author: Charles.qu 
  * @Date: 2022-08-03 16:24:18 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2022-08-09 17:55:29
+ * @Last Modified time: 2022-08-11 14:29:12
  */
 import React from "react";
 import { observer, inject } from "mobx-react";
@@ -34,13 +34,12 @@ export default class Cmp extends React.Component<IProp>  {
                     {Object.keys(cmpData).map((key: any) => {
                         const Cmp = cmpData[key as keyof typeof cmpData];
                         return <Panel header={key} key={key}>
-                            <Cmp draggable='true' onDragStart={(e: DragEvent) => this.handleDragStart(e, key)} style={{ width: "100px", height: "100px" }} />
+                            <Cmp draggable='true' onDragStart={(e: DragEvent) => this.handleDragStart(e, key)}>
+                                <span>{key}</span></Cmp>
                         </Panel>
                     })}
-
                 </Collapse>
             </div>
-
         </div>
     }
 }

@@ -5,15 +5,16 @@ const ew_draginclass = 'ew_draginclass';
 
 const defaultExhibition = {
     style: {
-        width: '100px',
-        height: '100px',
+        // width: '100px',
+        // height: '100px',
     },
     onClick: (e: Event, ...arg: Array<any>) => {
         const arg1 = arg[0];
         const arg2 = arg[1];
         const { id } = arg1;
         const { exhibition } = arg2;
-        exhibition.setConfigData(arg1);
+        // exhibition.setConfigData({ ...arg1, id });
+        exhibition.setSelectedId(id);
         e.stopPropagation();
     },
     onMouseEnter: (e: MouseEvent) => {

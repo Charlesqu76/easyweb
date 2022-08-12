@@ -2,7 +2,7 @@
  * @Author: Charles.qu 
  * @Date: 2022-08-10 14:58:19 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2022-08-10 16:14:23
+ * @Last Modified time: 2022-08-11 15:27:23
  */
 
 import React from "react";
@@ -21,17 +21,20 @@ type Iprops = Partial<{
 @observer
 export default class MiniMap extends React.Component<Iprops> {
     handleTreeItemSelect = (item: any) => {
+        const { exhibition } = this.props;
         const id = item[0];
-        console.log(id);
+        exhibition.setSelectedId(id);
+
     }
     render(): React.ReactNode {
-        const treeData = toAntdTreeData(this.props.exhibition.data);
+        const { exhibition } = this.props
+        const treeData = toAntdTreeData(exhibition.data);
         return <div className="ew__minimap-con">
             <div className="ew__minimap-con-header">
                 <span>MiniMap</span>
             </div>
             <div className="ew__minimap-con-tree">
-                <Tree treeData={treeData} onSelect={this.handleTreeItemSelect} />
+                <Tree treeData={treeData} onSelect={this.handleTreeItemSelect} selectedKeys={[exhibition.selectedId]} />
             </div>
         </div>
     }

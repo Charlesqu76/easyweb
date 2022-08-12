@@ -1,0 +1,29 @@
+.ew__objinput {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  &-key {
+    width: 150px;
+    transition: all 0.05s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+  }
+  &-value {
+    flex: 1;
+    transition: all 0.05s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+  }
+  .ant-select-selector {
+    padding: 0 !important;
+  }
+  .ant-select-selection-search {
+    left: 0 !important;
+  }
+  &-keyunfocus,
+  &-valueunfocus {
+    .ant-select-selector {
+      background-color: transparent !important;
+      border: none !important;
+    }
+  }
+  &-ver {
+    margin: 0 3px;
+  }
+}
