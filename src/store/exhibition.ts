@@ -22,7 +22,6 @@ export interface IExhibition {
     changeTemp: (param: { id: number, key: string, value: string, parentKey: string[] }) => void,
 
 }
-
 export default class Exhibition implements IExhibition {
     @observable configData = {};
     @observable data = {
@@ -75,15 +74,15 @@ export default class Exhibition implements IExhibition {
     @action
     changeTemp = (param: { id: number, key: string, value: string, parentKey: string[] }) => {
         const { key, value, parentKey } = param;
-        console.log(parentKey);
+        console.log(key, value);
         console.log(this.configData);
-        let item = null;
-        // console.log(parentKey);
+        console.log(parentKey);
         // @ts-ignore
-        // const item = this.configData[parentKey];
+        const item = (this.configData || []).filter((v) => v.key === parentKey.pop())[0];
+        console.log(item);
         // if (item) {
         //     // @ts-ignore
-        //     this.setConfigData({ ...this.configData, [parentKey]: { ...this.configData[parentKey], [key]: value } })
+        //     this.setConfigData({ ...this.configData, [parentKey[0]]: { ...this.configData[parentKey[0]], [key]: value } })
         // } else {
         //     this.setConfigData({ ...this.configData, [key]: value });
 

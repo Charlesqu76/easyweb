@@ -51,7 +51,6 @@ export default class ObjInput extends React.Component<IProps, IState> {
 
     handleChangeValue = (param: { key: string, value: any, id: number }) => {
         const { parentKey, parentValue } = this.props;
-        console.log(parentValue);
         this.props.exhibition.changeTemp({ ...param, parentKey });
     }
 
