@@ -5,8 +5,8 @@
  * @Last Modified time: 2022-08-12 17:52:26
  */
 
-import React from "react";
-import { Input, AutoComplete } from 'antd';
+import React, { ChangeEvent } from "react";
+import { Input, AutoComplete, Tooltip } from 'antd';
 import classNames from "classnames";
 import { observer, inject } from "mobx-react";
 import { IExhibition } from '@/store/exhibition'
@@ -16,11 +16,9 @@ type IProps = {
     objKey: string;
     objValue: string;
     objId: number;
-    parentKey: Array<string>;
-    parentValue: any
+    parentKey?: string
 } & Partial<{ exhibition: IExhibition }>
 type IState = {
-    editKey: boolean;
     editValue: boolean;
 }
 
@@ -29,16 +27,7 @@ type IState = {
 @observer
 export default class ObjInput extends React.Component<IProps, IState> {
     state = {
-        editKey: false,
         editValue: false
-    }
-
-    handleOnfofusKey = () => {
-        this.setState({ editKey: true })
-    }
-
-    handleOnBlurKey = () => {
-        this.setState({ editKey: false })
     }
 
     handleOnfocusVal = () => {
@@ -49,38 +38,37 @@ export default class ObjInput extends React.Component<IProps, IState> {
         this.setState({ editValue: false })
     }
 
-    handleChangeValue = (param: { key: string, value: any, id: number }) => {
-        const { parentKey, parentValue } = this.props;
-        this.props.exhibition.changeTemp({ ...param, parentKey });
+    handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
+        const { objKey, objId, parentKey } = this.props
+        const { value } = e.target;
+        this.props.exhibition.changeItem({
+            key: objKey,
+            value,
+            id: objId,
+            parentKey
+        })
+
     }
 
     render(): React.ReactNode {
-        const { objKey, objValue, parentKey, objId } = this.props;
-        const { editKey, editValue } = this.state;
-        const keycls = classNames({
-            'ew__objinput-key': true,
-            'ew__objinput-keyunfocus': !editKey
-        });
+        const { objKey, objValue, objId } = this.props;
+        const { editValue } = this.state;
+
         const valuecls = classNames({
             'ew__objinput-value': true,
             'ew__objinput-valueunfocus': !editValue
         });
 
         return <div className="ew__objinput">
-            <AutoComplete className={keycls}
-                value={objKey}
-                onFocus={this.handleOnfofusKey}
-                onBlur={this.handleOnBlurKey}
-                onChange={(val) => { this.handleChangeValue({ key: objKey, value: val, id: objId }) }}
-            />
-            <span className="ew__objinput-ver">:</span>
-            {objKey && <AutoComplete className={valuecls}
+            <Tooltip title={objKey} placement='topLeft'>
+                <span className="ew__objinput-key">{objKey}: </span>
+            </Tooltip>
+            <Input className={valuecls}
                 value={objValue}
                 onFocus={this.handleOnfocusVal}
                 onBlur={this.handleOnBlurVal}
-                onChange={(val) => { this.handleChangeValue({ key: objKey, value: val, id: objId }) }}
-            />}
-
+                onChange={this.handleChangeValue}
+            />
         </div>
     }
 }

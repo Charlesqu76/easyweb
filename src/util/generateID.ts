@@ -1,11 +1,10 @@
 
-let id = 1;
 
-const generateId = (treeData: any) => {
+const generateId = (treeData: any, id: number) => {
     const { child = [] } = treeData;
     !treeData.id && (treeData.id = id++);
     child.forEach((item: any) => {
-        generateId(item);
+        generateId(item, id);
     });
 }
 export default generateId;

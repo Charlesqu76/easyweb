@@ -47,6 +47,7 @@ export default class Exhibiton extends React.Component<IProp> {
             'ew__exhibition-con-minimaphidden': !miniMap.show
         });
         return <div className="ew__exhibition-con">
+            {/* minimap */}
             <Draggable>
                 <div className={minimapCls}>
                     <MiniMap />
@@ -55,9 +56,9 @@ export default class Exhibiton extends React.Component<IProp> {
             <div className="ew__exhibition-con-show">
                 <div className="ew__exhibition-con-show-con">
                     {this.renderTree(this.props.exhibition.data, { exhibition: exhibition, config: config })}
-
                 </div>
             </div>
+            {/* config */}
             <Draggable position={configMode.isFixed ? { x: 0, y: 0 } : null} disabled={configMode.isFixed}>
                 <div className={configcls} >
                     <Config />

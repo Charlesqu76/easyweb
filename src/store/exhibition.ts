@@ -12,14 +12,14 @@ export type componentProp = {
 
 export interface IExhibition {
     data: componentProp,
-    changeItem: (param: { id: number, key: string, value: string | Object }) => void,
+    changeItem: (param: { id: number, key: string, value: string | Object, parentKey?: string }) => void,
     configData: componentProp | {},
     setConfigData: (obj: any) => void,
-    addItemToTree: (id: number, key: string) => void,
+    // addItemToTree: (id: number, key: string) => void,
     selectedId: number,
     selectedParentIds: Array<number>,
     setSelectedId: (id: number) => void,
-    changeTemp: (param: { id: number, key: string, value: string, parentKey: string[] }) => void,
+    // changeTemp: (param: { id: number, key: string, value: string, parentKey: string[] }) => void,
 
 }
 export default class Exhibition implements IExhibition {
@@ -27,32 +27,38 @@ export default class Exhibition implements IExhibition {
     @observable data = {
         tagName: "div", tagProps: { style: {} }
     };
+    @observable id = 1;
     @observable selectedId = 1;
     // 暂时不用
     @observable selectedParentIds = [] as Array<number>;
     constructor() {
         makeAutoObservable(this);
-        // 初始化，数据添加ID
-        generateId(this.data);
-        this.setSelectedId(1);
         try {
             // 优先使用本地缓存
             const data = localStorage.getItem('data');
             const realData = JSON.parse(data);
-            this.data = realData;
-        } catch {
-
+            this.data = realData || {
+                tagName: "div", tagProps: { style: {} }
+            };;
+        } catch (e) {
+            this.data = {
+                tagName: "div", tagProps: { style: {} }
+            };
         }
+        // 初始化，数据添加ID
+        generateId(this.data, this.id);
+        this.setSelectedId(1);
 
     }
 
     @action
-    changeItem(param: { id: number, key: string, value: string }) {
-        const { id, key, value } = param;
+    changeItem(param: { id: number, key: string, value: string, parentKey?: string }) {
+        const { id, key, value, parentKey } = param;
         const { item } = getItemFromTree(this.data, id);
         if (!item) { console.log('not find item'); return };
         const { tagProps } = item;
-        tagProps[key] = value;
+        const finalItem = parentKey ? tagProps[parentKey] : tagProps;
+        finalItem[key] = value;
     }
 
     @action
@@ -67,39 +73,20 @@ export default class Exhibition implements IExhibition {
 
     @action
     setConfigData(obj: any) {
-        const res = formatDataToObj(obj);
-        this.configData = res;
-    }
-
-    @action
-    changeTemp = (param: { id: number, key: string, value: string, parentKey: string[] }) => {
-        const { key, value, parentKey } = param;
-        console.log(key, value);
-        console.log(this.configData);
-        console.log(parentKey);
-        // @ts-ignore
-        const item = (this.configData || []).filter((v) => v.key === parentKey.pop())[0];
-        console.log(item);
-        // if (item) {
-        //     // @ts-ignore
-        //     this.setConfigData({ ...this.configData, [parentKey[0]]: { ...this.configData[parentKey[0]], [key]: value } })
-        // } else {
-        //     this.setConfigData({ ...this.configData, [key]: value });
-
-        // }
+        this.configData = obj;
     }
 
     @action
     addItemToTree(id: number, key: string) {
         const { item } = getItemFromTree(this.data, Number(id));
         if (!item) { console.log('not find item'); return };
-        const defaultObj = { tagName: key, tagProps: { style: {} } };
+        const defaultObj = { tagName: key, tagProps: { style: {}, id: this.id } };
         if (item.child) {
             item.child.push(defaultObj)
         } else {
             item.child = [defaultObj]
         }
-        generateId(this.data);
+        // generateId(this.data);
     }
 
 }

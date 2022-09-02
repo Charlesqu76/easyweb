@@ -20,7 +20,7 @@ export default class extends React.Component<IProp> {
 
     render(): React.ReactNode {
 
-       
+
         return <div className="ew-con">
             <div className="ew-con-header"><Header /></div>
             <div className="ew-con-body">

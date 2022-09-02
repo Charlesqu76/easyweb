@@ -4,10 +4,8 @@ const ew_class = 'ew_class';
 const ew_draginclass = 'ew_draginclass';
 
 const defaultExhibition = {
-    style: {
-        // width: '100px',
-        // height: '100px',
-    },
+    style: {},
+
     onClick: (e: Event, ...arg: Array<any>) => {
         const arg1 = arg[0];
         const arg2 = arg[1];
@@ -17,6 +15,7 @@ const defaultExhibition = {
         exhibition.setSelectedId(id);
         e.stopPropagation();
     },
+
     onMouseEnter: (e: MouseEvent) => {
         e.stopPropagation();
         // @ts-ignore
@@ -25,6 +24,7 @@ const defaultExhibition = {
         // @ts-ignore
         !oldClassList.includes(ew_class) && e.target.setAttribute('class', `${oldClass} ${ew_class}`)
     },
+
     onMouseLeave: (e: Event) => {
         e.stopPropagation();
         // @ts-ignore
@@ -34,6 +34,7 @@ const defaultExhibition = {
         // @ts-ignore
         (newClassList.length !== oldClassList.length) && e.target.setAttribute('class', `${newClassList.join(' ')}`)
     },
+
     onDragEnter: (e: Event) => {
         e.stopPropagation();
         // @ts-ignore
@@ -42,6 +43,7 @@ const defaultExhibition = {
         // @ts-ignore
         !oldClassList.includes(ew_draginclass) && e.target.setAttribute('class', `${oldClass} ${ew_draginclass}`)
     },
+
     onDragLeave: (e: Event) => {
         e.stopPropagation();
         // @ts-ignore
@@ -52,12 +54,13 @@ const defaultExhibition = {
         (newClassList.length !== oldClassList.length) && e.target.setAttribute('class', `${newClassList.join(' ')}`)
 
     },
+
     onDragOver: (e: Event) => {
         e.preventDefault();
         e.stopPropagation();
     },
-    onDrop: (e: Event, ...args: Array<any>) => {
 
+    onDrop: (e: Event, ...args: Array<any>) => {
         e.preventDefault();
         e.stopPropagation();
         // @ts-ignore

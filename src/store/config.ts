@@ -13,7 +13,7 @@ export interface IConfig {
 }
 
 export default class Config implements IConfig {
-    @observable configMode = { isFixed: true };
+    @observable configMode = { isFixed: false };
     @observable miniMap = { show: true };
     constructor() {
         makeAutoObservable(this);
