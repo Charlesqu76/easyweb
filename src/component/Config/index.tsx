@@ -42,7 +42,7 @@ export default class Config extends React.Component<IProp, IState> {
         const { styleFilterWord, styleList } = this.state;
         const { exhibition } = this.props;
         const { configData = {} } = exhibition || {};
-        const { style: styleObj, ...other } = configData as any;
+        const { style: styleObj, id, ...other } = configData as any;
         return <div className="ew__config-con">
             <div className="ew__config-con-body">
                 <Tabs>
@@ -55,7 +55,7 @@ export default class Config extends React.Component<IProp, IState> {
                             </div>
                             <div className="ew__config_style-list">
                                 {styleList.map((style) => {
-                                    return <ObjInput key={style} objKey={style} objValue={styleObj[style] || ''} objId={1} exhibition={exhibition} parentKey='style' />
+                                    return <ObjInput key={style} objKey={style} objValue={styleObj[style] || ''} objId={id} exhibition={exhibition} parentKey='style' />
                                 })}
                             </div>
 

@@ -46,7 +46,9 @@ export default class Exhibition implements IExhibition {
             };
         }
         // 初始化，数据添加ID
-        generateId(this.data, this.id);
+        const newId = generateId(this.data, this.id);
+        this.id = newId;
+        console.log(this.id);
         this.setSelectedId(1);
 
     }
@@ -79,14 +81,13 @@ export default class Exhibition implements IExhibition {
     @action
     addItemToTree(id: number, key: string) {
         const { item } = getItemFromTree(this.data, Number(id));
-        if (!item) { console.log('not find item'); return };
-        const defaultObj = { tagName: key, tagProps: { style: {}, id: this.id } };
+        if (!item) { console.error('not find item'); return };
+        const defaultObj = { tagName: key, tagProps: { style: {}, }, id: ++this.id };
+        console.log(this.id);
         if (item.child) {
             item.child.push(defaultObj)
         } else {
             item.child = [defaultObj]
         }
-        // generateId(this.data);
     }
-
 }
