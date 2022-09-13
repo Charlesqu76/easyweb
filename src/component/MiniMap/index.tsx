@@ -24,8 +24,14 @@ export default class MiniMap extends React.Component<Iprops> {
         const { exhibition } = this.props;
         const id = item[0];
         exhibition.setSelectedId(id);
+    }
+
+    handleRightClick = (e: any) => {
+        console.log(e);
+        const { } = e;
 
     }
+
     render(): React.ReactNode {
         const { exhibition } = this.props
         const treeData = toAntdTreeData(exhibition.data);
@@ -34,7 +40,7 @@ export default class MiniMap extends React.Component<Iprops> {
                 <span>MiniMap</span>
             </div>
             <div className="ew__minimap-con-tree">
-                <Tree treeData={treeData} onSelect={this.handleTreeItemSelect} selectedKeys={[exhibition.selectedId]} />
+                <Tree treeData={treeData} onSelect={this.handleTreeItemSelect} selectedKeys={[exhibition.selectedId]} onRightClick={this.handleRightClick} />
             </div>
         </div>
     }

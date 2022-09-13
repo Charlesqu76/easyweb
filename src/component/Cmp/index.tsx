@@ -32,14 +32,16 @@ export default class Cmp extends React.Component<IProp>  {
             <div className="ew__cmp-con-body">
                 <Collapse>
                     {Object.keys(cmpData).map((key: any) => {
-                        const Cmp = cmpData[key as keyof typeof cmpData];
+                        const CmpT = cmpData[key as keyof typeof cmpData];
+                        const Cmp = CmpT.component;
+                        const props = CmpT.props;
                         return <Panel header={key} key={key}>
-                            <Cmp draggable='true' onDragStart={(e: DragEvent) => this.handleDragStart(e, key)}>
+                            <Cmp {...props} draggable='true' onDragStart={(e: DragEvent) => this.handleDragStart(e, key)} >
                                 <span>{key}</span></Cmp>
                         </Panel>
                     })}
                 </Collapse>
             </div>
-        </div>
+        </div >
     }
 }

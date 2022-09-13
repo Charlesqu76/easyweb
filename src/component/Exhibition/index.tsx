@@ -29,9 +29,10 @@ export default class Exhibiton extends React.Component<IProp> {
 
     renderTree = (tree: componentProp, ...prop: any) => {
         const { tagName, tagProps, child, id } = tree;
+        console.log(JSON.stringify(tagProps));
         const obj = mergeObj(defaultExhibition, { ...tagProps, id });
-        // @ts-ignore
-        const Cmp = cmpData[tagName as string];
+        const CmpT = cmpData[tagName as keyof typeof cmpData];
+        const Cmp = CmpT.component;
         return <Cmp {...obj} key={id} onClick={(e: Event) => obj.onClick(e, obj, ...prop)} onDrop={(e: Event) => obj.onDrop(e, obj, ...prop)}> {child && child.map((item) => this.renderTree(item, ...prop))} </Cmp>
     }
 

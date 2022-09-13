@@ -6,7 +6,9 @@
  */
 
 
-const getItemFromTree = (tree: any, targetId: number): any => {
+type func = (tree: any, targetId: number) => { parentIds: Array<number>, item: any }
+
+const getItemFromTree: func = (tree: any, targetId: number) => {
     let res = null;
     let parentIds1 = [] as Array<number>
     const recursion = (tree: any, parentIds: Array<number>) => {

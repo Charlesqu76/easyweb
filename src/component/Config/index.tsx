@@ -8,8 +8,7 @@ import React, { ChangeEvent } from "react";
 import { inject, observer } from "mobx-react";
 import { IConfig } from '@/store/config'
 import { IExhibition } from '@/store/exhibition'
-import { Input, Tabs, Tooltip } from 'antd'
-import { styleTextToObj } from '@/util';
+import { Input, Tabs } from 'antd'
 import ObjInput from '@/component/ObjInput'
 import './index.scss'
 
@@ -46,7 +45,12 @@ export default class Config extends React.Component<IProp, IState> {
         return <div className="ew__config-con">
             <div className="ew__config-con-body">
                 <Tabs>
-                    <Tabs.TabPane tab='基础配置' key='baseConfig'></Tabs.TabPane>
+                    <Tabs.TabPane tab='基础配置' key='baseConfig'>
+                        {Object.keys(other).map((v) => {
+                            return <ObjInput key={v} objKey={v} objValue={other[v] || ''} objId={id} exhibition={exhibition} />
+
+                        })}
+                    </Tabs.TabPane>
                     <Tabs.TabPane tab='样式配置' key='styleConfig'>
                         <div className="ew__config_style">
                             <div className="ew__config_style-filter">
@@ -54,11 +58,14 @@ export default class Config extends React.Component<IProp, IState> {
                                 <Input value={styleFilterWord} onChange={this.handleChangeStyleFilterWord} allowClear />
                             </div>
                             <div className="ew__config_style-list">
+                                {/* {Object.keys(styleObj).map((v) => {
+                                    return <ObjInput key={v} objKey={v} objValue={styleObj[v] || ''} objId={id} exhibition={exhibition} parentKey='style' />
+
+                                })} */}
                                 {styleList.map((style) => {
                                     return <ObjInput key={style} objKey={style} objValue={styleObj[style] || ''} objId={id} exhibition={exhibition} parentKey='style' />
                                 })}
                             </div>
-
                         </div>
                     </Tabs.TabPane>
                 </Tabs>

@@ -46,8 +46,7 @@ export default class ObjInput extends React.Component<IProps, IState> {
             value,
             id: objId,
             parentKey
-        })
-
+        });
     }
 
     render(): React.ReactNode {

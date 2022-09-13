@@ -1,7 +1,7 @@
 
 import { action, makeAutoObservable, observable } from "mobx";
 import { generateId, getItemFromTree } from '@/util/index';
-import { styleObjToText, formatDataToObj } from '@/util'
+import cmpData from '@/cmp/index';
 
 export type componentProp = {
     tagName: string;
@@ -19,7 +19,7 @@ export interface IExhibition {
     selectedId: number,
     selectedParentIds: Array<number>,
     setSelectedId: (id: number) => void,
-    // changeTemp: (param: { id: number, key: string, value: string, parentKey: string[] }) => void,
+    deleteItem: (id: number) => void,
 
 }
 export default class Exhibition implements IExhibition {
@@ -47,12 +47,41 @@ export default class Exhibition implements IExhibition {
         }
         // 初始化，数据添加ID
         const newId = generateId(this.data, this.id);
-        this.id = newId;
-        console.log(this.id);
+        this.id = newId + 1;
         this.setSelectedId(1);
-
     }
 
+    /**
+     * 添加
+     * @param id 
+     * @param key 
+     * @returns 
+     */
+    @action
+    addItemToTree(id: number, key: string) {
+        const { item } = getItemFromTree(this.data, Number(id));
+        if (!item) { console.error('not find item'); return };
+        const cmp = cmpData[key as keyof typeof cmpData];
+        let defaultObj = { tagName: key, tagProps: { style: {}, ...cmp.props }, id: ++this.id };
+        if (item.child) {
+            item.child.push(defaultObj)
+        } else {
+            item.child = [defaultObj]
+        }
+    }
+
+
+    @action
+    deleteItem(id: number) {
+        const data = getItemFromTree(this.data, id);
+        console.log(data);
+    }
+
+    /**
+     * 改变属性
+     * @param param 
+     * @returns 
+     */
     @action
     changeItem(param: { id: number, key: string, value: string, parentKey?: string }) {
         const { id, key, value, parentKey } = param;
@@ -60,9 +89,15 @@ export default class Exhibition implements IExhibition {
         if (!item) { console.log('not find item'); return };
         const { tagProps } = item;
         const finalItem = parentKey ? tagProps[parentKey] : tagProps;
+        console.log(finalItem);
         finalItem[key] = value;
     }
 
+    /**
+     * 选中
+     * @param id 
+     * @returns 
+     */
     @action
     setSelectedId(id: number) {
         this.selectedId = id;
@@ -78,16 +113,5 @@ export default class Exhibition implements IExhibition {
         this.configData = obj;
     }
 
-    @action
-    addItemToTree(id: number, key: string) {
-        const { item } = getItemFromTree(this.data, Number(id));
-        if (!item) { console.error('not find item'); return };
-        const defaultObj = { tagName: key, tagProps: { style: {}, }, id: ++this.id };
-        console.log(this.id);
-        if (item.child) {
-            item.child.push(defaultObj)
-        } else {
-            item.child = [defaultObj]
-        }
-    }
+
 }
