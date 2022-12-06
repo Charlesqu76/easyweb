@@ -73,8 +73,14 @@ export default class Exhibition implements IExhibition {
 
     @action
     deleteItem(id: number) {
-        const data = getItemFromTree(this.data, id);
-        console.log(data);
+        const { parentIds } = getItemFromTree(this.data, id);
+        if (parentIds.length) {
+            const { item } = getItemFromTree(this.data, parentIds[parentIds.length - 1]);
+            const { child } = item;
+            const childIndex = 
+            console.log(JSON.stringify(child))
+        }
+
     }
 
     /**

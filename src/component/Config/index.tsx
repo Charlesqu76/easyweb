@@ -8,7 +8,7 @@ import React, { ChangeEvent } from "react";
 import { inject, observer } from "mobx-react";
 import { IConfig } from '@/store/config'
 import { IExhibition } from '@/store/exhibition'
-import { Input, Tabs } from 'antd'
+import { Button, Input, Tabs } from 'antd'
 import ObjInput from '@/component/ObjInput'
 import './index.scss'
 
@@ -37,6 +37,10 @@ export default class Config extends React.Component<IProp, IState> {
         this.setState({ styleFilterWord: value, styleList: filterStyleList });
     }
 
+    handleClickDelete = (id: number) => {
+        this.props.exhibition.deleteItem(id);
+    }
+
     render(): React.ReactNode {
         const { styleFilterWord, styleList } = this.state;
         const { exhibition } = this.props;
@@ -46,6 +50,7 @@ export default class Config extends React.Component<IProp, IState> {
             <div className="ew__config-con-body">
                 <Tabs>
                     <Tabs.TabPane tab='基础配置' key='baseConfig'>
+                        <Button type="primary" size='small' onClick={() => this.handleClickDelete(id)}>删除</Button>
                         {Object.keys(other).map((v) => {
                             return <ObjInput key={v} objKey={v} objValue={other[v] || ''} objId={id} exhibition={exhibition} />
 

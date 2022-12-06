@@ -29,7 +29,7 @@ export default class Exhibiton extends React.Component<IProp> {
 
     renderTree = (tree: componentProp, ...prop: any) => {
         const { tagName, tagProps, child, id } = tree;
-        console.log(JSON.stringify(tagProps));
+        // console.log(JSON.stringify(tagProps));
         const obj = mergeObj(defaultExhibition, { ...tagProps, id });
         const CmpT = cmpData[tagName as keyof typeof cmpData];
         const Cmp = CmpT.component;
